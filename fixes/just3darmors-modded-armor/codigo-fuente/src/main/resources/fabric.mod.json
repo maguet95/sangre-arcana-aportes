@@ -3,7 +3,7 @@
 	"id": "armorcemcompat",
 	"version": "${version}",
 	"name": "Armor CEM Compat",
-	"description": "Permite que los resource packs de armadura 3D (CEM) se apliquen solo a las armaduras que les corresponden, en lugar de a toda armadura equipada. Aporta la propiedad 'armor_item' a los .properties de EMF/ETF.",
+	"description": "Hace que los packs de armadura 3D (CEM) dejen de romper la armadura de los mods. Aporta la propiedad armor_item a los .properties de EMF/ETF y trae un pack de compatibilidad integrado.",
 	"authors": [
 		"Maguet"
 	],
@@ -19,7 +19,8 @@
 		"fabricloader": ">=0.16.0",
 		"minecraft": "~1.21.11",
 		"java": ">=21",
-		"entity_texture_features": "*"
+		"entity_texture_features": "*",
+		"fabric-resource-loader-v0": "*"
 	},
 	"recommends": {
 		"entity_model_features": "*"

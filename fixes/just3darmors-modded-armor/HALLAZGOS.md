@@ -221,3 +221,64 @@ conflicto silencioso. No causa este bug, pero conviene documentarlo en la págin
 | Pack con `nbt.equipment` (336 reglas) | 3D | correcta | nada | funciona, con delay; superado |
 | Remapear el modelo (nagi) | 3D | **3D** | nada | no implementado; sigue siendo la mejora ideal |
 | Pack sin CEM de armadura | plana | correcta | nada | funciona; se pierde el 3D equipado |
+
+---
+
+## 12. Versión final: el parche integrado en el mod (2026-09-04)
+
+Mejora sobre la sección 10. En vez de entregar el pack de armadura **modificado**, el mod
+trae **un resource pack integrado** con las reglas, y el pack del autor se usa **intacto**.
+
+### Cómo funciona
+
+El parche solo AÑADE archivos que ningún pack de armadura trae:
+
+```
+<entidad>_<pieza>2.jem         -> modelo vanilla (variante 2)
+<entidad>_<pieza>.properties   -> models.1=2 + armor_item.1=!<slot>:minecraft:*_<pieza>
+```
+
+La regla va **negada**: el modelo 3D del autor sigue siendo la variante 1 (por defecto), y
+solo se cambia a la variante 2 (vanilla) cuando la pieza **no** es de `minecraft:`.
+
+Registro con la API de Fabric:
+```java
+ResourceManagerHelper.registerBuiltinResourcePack(
+    Identifier.fromNamespaceAndPath(MOD_ID, "compat"), container,
+    ResourcePackActivationType.DEFAULT_ENABLED);
+```
+
+> ⚠️ En 1.21.11 con Mojang mappings, `ResourceLocation` se llama **`Identifier`**
+> (`net.minecraft.resources.Identifier`).
+
+### Ventajas
+
+| | Pack modificado (sección 10) | **Parche integrado** |
+|---|---|---|
+| Archivos a instalar | 2 | **1 (solo el jar)** |
+| Pack del autor | modificado | **intacto, el de Modrinth** |
+| Si el autor actualiza | hay que rehacerlo | **sigue funcionando** |
+| Redistribuye arte ajeno | sí | **no — publicable sin permiso** |
+| Sirve para otros packs 3D | no | **sí, es genérico** |
+
+Los nombres de archivo (`player_chestplate.jem`…) los define **EMF**, no el autor del pack,
+así que el parche vale para cualquier pack de armadura 3D con CEM.
+
+### Verificado en juego
+Pack original de nagi sin tocar + el mod → armadura vanilla en 3D, armadura de mods correcta,
+cambio en vivo instantáneo.
+
+### Limitación conocida: el orden de packs
+
+**El pack integrado debe ir POR ENCIMA del pack de armadura.** Si va debajo, EMF descarta el
+`.properties` (compara los `pack order indices` y exige que no venga de un pack inferior) y
+vuelve el bug.
+
+- Por defecto **queda encima**, sin tocar nada.
+- Se puede mover, y si se mueve **hay que reiniciar el juego**: recargar recursos no basta,
+  porque EMF no reconstruye los modelos de armadura en caliente.
+
+Se dejó `DEFAULT_ENABLED` (desactivable) en vez de `ALWAYS_ENABLED` a propósito: si algún día
+el pack de armadura trae sus propias reglas, las nuestras las pisarían al ir por encima; en
+ese caso el usuario apaga el pack integrado y conserva la propiedad `armor_item`, que las
+reglas del autor siguen necesitando.
