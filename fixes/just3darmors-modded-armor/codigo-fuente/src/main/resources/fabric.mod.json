@@ -1,0 +1,30 @@
+{
+	"schemaVersion": 1,
+	"id": "armorcemcompat",
+	"version": "${version}",
+	"name": "Armor CEM Compat",
+	"description": "Permite que los resource packs de armadura 3D (CEM) se apliquen solo a las armaduras que les corresponden, en lugar de a toda armadura equipada. Aporta la propiedad 'armor_item' a los .properties de EMF/ETF.",
+	"authors": [
+		"Maguet"
+	],
+	"contact": {},
+	"license": "MIT",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"com.maguet.armorcemcompat.ArmorCemCompat"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.16.0",
+		"minecraft": "~1.21.11",
+		"java": ">=21",
+		"entity_texture_features": "*"
+	},
+	"recommends": {
+		"entity_model_features": "*"
+	},
+	"mixins": [
+		"armorcemcompat.mixins.json"
+	]
+}

@@ -17,6 +17,7 @@ para que nadie más tenga que repetir el trabajo.
 | Fix | Problema que resuelve | Mods implicados |
 |---|---|---|
 | [**Hogskin inobtenible**](fixes/hogskin-butchersdelight/) | Matas hoglins y nunca cae el `Hogskin` → progresión de magia bloqueada (Gold/Diamond Spell Book, Lesser Spell Slot Upgrade) | Iron's Spells 'n Spellbooks + Butcher's Delight |
+| [**Armadura 3D vs mods**](fixes/just3darmors-modded-armor/) | Los packs de armadura 3D (CEM) deforman la armadura de **todos** los mods → no se pueden añadir armaduras al modpack | Cualquier pack CEM de armadura + EMF |
 
 ## 🌎 Traducciones
 
